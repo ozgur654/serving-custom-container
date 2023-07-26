@@ -32,14 +32,7 @@ async def health():
 async def predict(request: Request):
     body = await request.json()
     print(body)
-
-    instances = body["instances"]
-    print(instances)
-    print(type(instances))
-    instances = [x['text'] for x in instances]
-    print(instances)
-
-    tokenized_example = tokenizer(data, return_tensors='pt')
+    tokenized_example = tokenizer(body, return_tensors='pt')
     outputs = model.generate(tokenized_example['input_ids'].to('cuda:0'), max_new_tokens=100, do_sample=True, top_k=10, top_p = 0.95)
 
     # Postprocess
